@@ -22,7 +22,7 @@ public class InsufficientCoinsException extends Exception {
         return false;
     }
 
-    public int getRequiresMoreCoins(int teamID){
+    public int getRequiredCoinsForTeam(int teamID){
         return Math.abs(getEquipa(teamID).getMoedas())+50;
     }
 
