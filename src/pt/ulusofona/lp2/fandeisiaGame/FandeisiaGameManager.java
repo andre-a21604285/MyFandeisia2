@@ -113,10 +113,11 @@ public class FandeisiaGameManager {
                         addCreature(getEquipa(teamId),id,type,orientation,x,y);
                     }
                     if(getEquipa(teamId).getMoedas() < 0){
-                        if(teamId ==10 )
+                        if(teamId ==10 ) {
                             userValid = false;
-                        else
+                        }else {
                             computerValid = false;
+                        }
                     }
                 }
             }

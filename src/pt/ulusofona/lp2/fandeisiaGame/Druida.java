@@ -20,8 +20,11 @@ public class Druida extends Creature {
 
     public int getMovement() {
         int mov = 1;
-        if(FandeisiaGameManager.turn%2 == 0)
+
+        if(FandeisiaGameManager.turn%2 == 0){
             mov=2;
+        }
+
 
         return mov;
     }
