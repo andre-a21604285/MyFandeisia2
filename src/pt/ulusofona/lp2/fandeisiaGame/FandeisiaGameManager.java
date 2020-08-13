@@ -346,9 +346,8 @@ public class FandeisiaGameManager {
     }
 
     public Tresure getTresure(int x , int y){
-        int i;
         Tresure tresure=null;
-        for(i=0; i<tresures.size();i++){
+        for(int i=0; i<tresures.size();i++){
             if(tresures.get(i).getX()==x && tresures.get(i).getY()==y){
                 tresure=tresures.get(i);
                 break;
@@ -358,9 +357,8 @@ public class FandeisiaGameManager {
     }
 
     public Buraco getBuraco(int x , int y){
-        int i;
         Buraco hole=null;
-        for(i=0; i<holes.size();i++){
+        for(int i=0; i<holes.size();i++){
             if(holes.get(i).getX()==x && holes.get(i).getY()==y){
                 hole=holes.get(i);
                 break;
@@ -472,9 +470,8 @@ public class FandeisiaGameManager {
     }
 
     private Creature getCreatureByPosition(int x, int y){
-        int i;
         Creature creature=null;
-        for(i=0; i<world.size();i++){
+        for(int i=0; i<world.size();i++){
             if(world.get(i).getX()==x && world.get(i).getY()==y){
                 creature=world.get(i);
                 break;
@@ -484,9 +481,8 @@ public class FandeisiaGameManager {
     }
 
     private boolean hasBuraco(int x, int y){
-        int i;
         boolean found=false;
-        for(i=0; i<holes.size();i++){
+        for(int i=0; i<holes.size();i++){
             if(holes.get(i).getX()==x && world.get(i).getY()==y){
                 found=true;
                 break;
@@ -526,7 +522,7 @@ public class FandeisiaGameManager {
     }
 
     private boolean checkAdd(int x, int y, int rows, int columns, Mapa map){
-        if(x>=0 && x<rows && y>=0 && y<columns && !map.isPositionFilled(x,y)){
+        if(x>=0 && x<columns && y>=0 && y<rows && !map.isPositionFilled(x,y)){
             return true;
         }
         return false;
