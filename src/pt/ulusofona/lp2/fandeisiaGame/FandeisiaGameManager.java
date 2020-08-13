@@ -73,7 +73,7 @@ public class FandeisiaGameManager {
         int count;
         linhas = rows;
         colunas = columns;
-        map = new Mapa(linhas,colunas);
+        map = new Mapa(columns,rows);
         boolean userValid=true;
         boolean computerValid=true;
         String message;
@@ -131,6 +131,7 @@ public class FandeisiaGameManager {
             message = "O computer não respeita o plafond";
             throw  new InsufficientCoinsException(user,computer,message);
         }
+        System.out.println("numero de criaturas = "+world.size());
     }
 
 
