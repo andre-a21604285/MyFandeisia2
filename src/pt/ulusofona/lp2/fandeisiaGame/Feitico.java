@@ -142,7 +142,7 @@ public class Feitico {
         creature.setY(creature.getX()+1);;
     }
     private void paraOeste( Creature creature){
-        creature.setY(creature.getX()-1);
+        creature.setX(creature.getX()-1);
     }
     private void menosAlcance( Creature creature){//reduzir o movimento
        creature.setAlcance(Math.min(creature.getMovement(),1));

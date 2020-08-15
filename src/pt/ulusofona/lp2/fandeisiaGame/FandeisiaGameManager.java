@@ -37,7 +37,6 @@ public class FandeisiaGameManager {
 
     public void addCreature(Equipa equipa, int id, String tipo, String orientacao, int x , int y){
 
-            equipa.addCreature(id,tipo,x,y,orientacao);
             if(tipo.equals("Elfo")){
                 map.addPosition(x,y,'e');
                 world.add(new Elfo(id,equipa.getId(),x,y,orientacao));
@@ -158,7 +157,7 @@ public class FandeisiaGameManager {
     }
 
     public void processTurn() {
-        tresures = corrente.movimento(linhas,colunas,map,tresures);
+        movimento();
         turn++;
         tiraGelo();
         if(corrente.getId() == 10){
@@ -314,11 +313,11 @@ public class FandeisiaGameManager {
         }else if(caiuEmBuraco(spellName,creature)){
             return false;
         }
-        int equipaId = getCreatureByPosition(x,y).getIdEquipa();
+        int equipaId = creature.getIdEquipa();
         int cost = feitico.getFeitico(creature,spellName);
         feiticosTurno.put(spellName,creature);
         getEquipa(equipaId).setMoedas(cost);
-        if(spellName.equals("congela")){
+        if(spellName.equals("Congela")){
             congelados.add(creature);
         }
         return true;
@@ -445,20 +444,54 @@ public class FandeisiaGameManager {
     }
 
     // - Metodos privados - //
-    /*private int validation() throws InsufficientCoinsException{
+    public void movimento(){
+        List<Creature> creatures = getCreaturesFromCurrentTeam();
+        for(int i = 0 ; i<creatures.size(); i++){
+            for(int j=0;j<creatures.get(i).getMovement();j++){
+                int x = creatures.get(i).getX() + corrente.position(creatures.get(i).getOrientation())[0];
+                int y = creatures.get(i).getY() + corrente.position(creatures.get(i).getOrientation())[1];
+                if(x<colunas && x>=0 && y<linhas && y>=0 ){
+                    if(j==creatures.get(i).getMovement()-1){ //TALVEZ APAGAR
+                        if(!corrente.checkMovement(x,y,creatures.get(i),map) || map.checkBuraco(x,y) || map.checkCreature(x,y)){
+                            creatures.get(i).setOrientation();
+                            break;
+                        }
+                        if(corrente.isDruidaInPar(creatures.get(i))) {
+                            tresures.add(new Tresure("bronze",creatures.get(i).getX(),creatures.get(i).getY()));
+                        }
+                        creatures.get(i).incKm();
+                        creatures.get(i).movimento();
+                        for(int z=0;z<tresures.size();z++){
+                            if(tresures.get(z).getX()==x && tresures.get(z).getY()==y){
+                                corrente.setPontos(tresures.get(z).getPoints(),creatures.get(i));
+                                tresures.remove(tresures.get(z));
+                            }
+                        }
 
-        int valor;
-        if(user.getMoedas()<0 && computer.getMoedas()<0){
-            throw new InsufficientCoinsException();
-        }else if(user.getMoedas()<0 && computer.getMoedas()>=0){
-            valor=2;
-        }else if(user.getMoedas()>=0 && computer.getMoedas()<0){
-            valor=3;
-        }else{
-            valor=0;
+                    }else if(!corrente.checkMovement(x,y,creatures.get(i),map)){
+                        break;
+                    }else{
+                        if(corrente.isDruidaInPar(creatures.get(i))) {
+                            tresures.add(new Tresure("bronze",creatures.get(i).getX(),creatures.get(i).getY()));
+                            map.addPosition(creatures.get(i).getX(), creatures.get(i).getY(), 'b');
+                        }
+                        creatures.get(i).incKm();
+                        System.out.println("X="+creatures.get(i).getX()+"   Y="+ creatures.get(i).getY());
+                        getCreatureByPosition(creatures.get(i).getX(),creatures.get(i).getY()).movimento();//update world
+                        for(int z=0;z<tresures.size();z++){
+                            if(tresures.get(z).getX()==x && tresures.get(z).getY()==y){
+                                corrente.setPontos(tresures.get(z).getPoints(),creatures.get(i));
+                                tresures.remove(tresures.get(z));
+                            }
+                        }
+                    }
+                }else{
+                    creatures.get(i).setOrientation();
+                    break;
+                }
+            }
         }
-        return valor;
-    }*/
+    }
 
     private boolean pointsWorld(){
         int sum=0;
@@ -539,7 +572,17 @@ public class FandeisiaGameManager {
             }
         }
         return creature;
+    }
 
+    private List<Creature> getCreaturesFromCurrentTeam(){
+        int equipaId = corrente.getId();
+        List<Creature> creatures = new LinkedList<>();
+        for(Creature creature: world){
+            if(creature.getIdEquipa() == equipaId){
+                creatures.add(creature);
+            }
+        }
+        return  creatures;
     }
 
 
