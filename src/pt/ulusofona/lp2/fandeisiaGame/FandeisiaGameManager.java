@@ -314,8 +314,10 @@ public class FandeisiaGameManager {
         }else if(caiuEmBuraco(spellName,creature)){
             return false;
         }
-        feitico.getFeitico(creature,spellName);
+        int equipaId = getCreatureByPosition(x,y).getIdEquipa();
+        int cost = feitico.getFeitico(creature,spellName);
         feiticosTurno.put(spellName,creature);
+        getEquipa(equipaId).setMoedas(cost);
         if(spellName.equals("congela")){
             congelados.add(creature);
         }
@@ -391,8 +393,7 @@ public class FandeisiaGameManager {
 
     public List<String> getAuthors() {
         ArrayList<String> authors = new ArrayList<String>();
-        authors.add("    André Rego  - 21604285  ");
-        authors.add("   Gonçalo Matos  - 21600767  ");
+        authors.add("    André Rego - 21604285  ");
         return authors;
     }
 
@@ -527,6 +528,18 @@ public class FandeisiaGameManager {
             return true;
         }
         return false;
+    }
+
+    private Creature getCreatureByID(int id){
+        Creature creature = null;
+        for(int i=0; i<world.size();i++){
+            if(world.get(i).id == id){
+                creature = world.get(i);
+                break;
+            }
+        }
+        return creature;
+
     }
 
 

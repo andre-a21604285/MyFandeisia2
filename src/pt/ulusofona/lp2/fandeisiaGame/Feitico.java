@@ -2,6 +2,17 @@ package pt.ulusofona.lp2.fandeisiaGame;
 
 public class Feitico {
 
+    private static final String EN="EmpurraParaNorte";
+    private static final String ES="EmpurraParaSul";
+    private static final String EO="EmpurraParaOeste";
+    private static final String EE="EmpurraParaEeste";
+    private static final String RA="ReduzAlcance";
+    private static final String DA="DuplicaAlcance";
+    private static final String C="Congela";
+    private static final String C4="Congela4Ever";
+    private static final String D="Descongela";
+
+
     public static String nome;
     public static String cost;
     public static String efeito;
@@ -13,27 +24,37 @@ public class Feitico {
         this.efeito=efeito;
     }
 
-    public void getFeitico(Creature creature, String name){
-        if(name.equals("empurraParaNorte")){
+    public int getFeitico(Creature creature, String name){
+        int cost = 0;
+        if(name.toUpperCase().equals(EN.toUpperCase())){
             paraNorte(creature);
-        }else if(name.equals("empurraParaSul")){
+            cost = 1;
+        }else if(name.toUpperCase().equals(ES.toUpperCase())){
              paraSul(creature);
-        }else if(name.equals("empurraParaEste")){
+             cost = 1;
+        }else if(name.toUpperCase().equals(EE.toUpperCase())){
              paraEste(creature);
-        }else if(name.equals("empurraParaOeste")){
-             paraOeste(creature);
-        }else if(name.equals("reduzAlcance")){
+             cost = 1;
+        }else if(name.toUpperCase().equals(EO.toUpperCase())){
+            paraOeste(creature);
+            cost = 1;
+        }else if(name.toUpperCase().equals(RA.toUpperCase())){
              menosAlcance(creature);
-        }else if(name.equals("duplicaAlcance")){
+             cost = 2;
+        }else if(name.toUpperCase().equals(DA.toUpperCase())){
              maisAlcance(creature);
-        }else if(name.equals("congela")){
+             cost = 3;
+        }else if(name.toUpperCase().equals(C.toUpperCase())){
              gelo(creature);
-        }else if(name.equals("congela4Ever")){
+             cost = 3;
+        }else if(name.toUpperCase().equals(C4.toUpperCase())){
              sempreGelo(creature);
-        }else if(name.equals("descongela")){
+            cost = 10;
+        }else if(name.toUpperCase().equals(D.toUpperCase())){
              semGelo(creature);
+            cost = 8;
         }
-
+    return cost;
     }
 
     public static String[] empurraParaNorte(){
@@ -112,7 +133,7 @@ public class Feitico {
 
 
     private void paraNorte( Creature creature){
-        creature.setY(creature.getY()+1);
+        creature.setY(creature.getY()-1);
     }
     private void paraSul(Creature creature){
         creature.setY(creature.getY()+1);
