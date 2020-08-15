@@ -131,7 +131,7 @@ public class FandeisiaGameManager {
             message = "O computer não respeita o plafond";
             throw  new InsufficientCoinsException(user,computer,message);
         }
-        System.out.println("numero de criaturas = "+world.size());
+        System.out.println("numero de criaturas = "+ world.size() );
     }
 
 
@@ -145,7 +145,7 @@ public class FandeisiaGameManager {
 
     public Map<String, Integer> createComputerArmy(){
         Map<String, Integer> equipa = new HashMap<>();
-        equipa.put("Humano",1);
+        equipa.put("Humano",2);
         return equipa;
     }
 
