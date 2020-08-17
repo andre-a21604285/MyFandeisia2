@@ -472,7 +472,6 @@ public class FandeisiaGameManager implements java.io.Serializable {
                             map.addPosition(creatures.get(i).getX(), creatures.get(i).getY(), 'b');
                         }
                         creatures.get(i).incKm();
-                        System.out.println("X="+creatures.get(i).getX()+"   Y="+ creatures.get(i).getY());
                         getCreatureByPosition(creatures.get(i).getX(),creatures.get(i).getY()).movimento();//update world
                         for(int z=0;z<tresures.size();z++){
                             if(tresures.get(z).getX()==x && tresures.get(z).getY()==y){
@@ -514,7 +513,18 @@ public class FandeisiaGameManager implements java.io.Serializable {
     private boolean hasBuraco(int x, int y){
         boolean found=false;
         for(int i=0; i<holes.size();i++){
-            if(holes.get(i).getX()==x && world.get(i).getY()==y){
+            if(holes.get(i).getX()==x && holes.get(i).getY()==y){
+                found=true;
+                break;
+            }
+        }
+        return found;
+    }
+
+    private boolean hasCreature(int x, int y){
+        boolean found=false;
+        for(int i=0; i<world.size();i++){
+            if(world.get(i).getX()==x && world.get(i).getY()==y){
                 found=true;
                 break;
             }
@@ -525,21 +535,17 @@ public class FandeisiaGameManager implements java.io.Serializable {
     private boolean caiuEmBuraco(String name,Creature creature){
         boolean found = false;
         switch (name){
-            case "empurraParaNorte":
-                hasBuraco(creature.getX(),creature.getY()+1);
-                found=true;
+            case Feitico.EN:
+                found = hasBuraco(creature.getX(),creature.getY()+1) || hasCreature(creature.getX(),creature.getY()+1);
                 break;
-            case "empurraParaSul":
-                hasBuraco(creature.getX(),creature.getY()-1);
-                found=true;
+            case Feitico.ES:
+                found =hasBuraco(creature.getX(),creature.getY()-1) || hasCreature(creature.getX(),creature.getY()-1);
                 break;
-            case "empurraParaEste":
-                hasBuraco(creature.getX()+1,creature.getY());
-                found=true;
+            case Feitico.EE:
+                found = hasBuraco(creature.getX()+1,creature.getY()) || hasCreature(creature.getX()+1,creature.getY());
                 break;
-            case "empurraParaOeste":
-                hasBuraco(creature.getX()-1,creature.getY()+1);
-                found = true;
+            case Feitico.EO:
+                found = hasBuraco(creature.getX()-1,creature.getY()) || hasCreature(creature.getX()-1,creature.getY());
                 break;
         }
         return found;

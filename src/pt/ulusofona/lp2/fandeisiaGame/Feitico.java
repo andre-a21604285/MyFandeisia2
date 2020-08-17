@@ -5,15 +5,15 @@ public class Feitico implements java.io.Serializable {
 
     private static final long serialVersionUID = -628789568975888036L;
 
-    private static final String EN="EmpurraParaNorte";
-    private static final String ES="EmpurraParaSul";
-    private static final String EO="EmpurraParaOeste";
-    private static final String EE="EmpurraParaEeste";
-    private static final String RA="ReduzAlcance";
-    private static final String DA="DuplicaAlcance";
-    private static final String C="Congela";
-    private static final String C4="Congela4Ever";
-    private static final String D="Descongela";
+    public static final String EN="EmpurraParaNorte";
+    public static final String ES="EmpurraParaSul";
+    public static final String EO="EmpurraParaOeste";
+    public static final String EE="EmpurraParaEste";
+    public static final String RA="ReduzAlcance";
+    public static final String DA="DuplicaAlcance";
+    public static final String C="Congela";
+    public static final String C4="Congela4Ever";
+    public static final String D="Descongela";
 
     public static String nome;
     public static String cost;
