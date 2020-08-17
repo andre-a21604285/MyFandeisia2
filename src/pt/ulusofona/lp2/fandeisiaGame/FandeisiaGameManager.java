@@ -306,7 +306,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
         Creature creature = getCreatureByPosition(x, y);
         if(creature==null){
             return false;
-        }else if(caiuEmBuraco(spellName,creature)){
+        }else if(caiuEmBuraco(spellName,x,y)){
             return false;
         }
         int equipaId = creature.getIdEquipa();
@@ -532,20 +532,20 @@ public class FandeisiaGameManager implements java.io.Serializable {
         return found;
     }
 
-    private boolean caiuEmBuraco(String name,Creature creature){
+    private boolean caiuEmBuraco(String name,int x, int y){
         boolean found = false;
         switch (name){
             case Feitico.EN:
-                found = hasBuraco(creature.getX(),creature.getY()+1) || hasCreature(creature.getX(),creature.getY()+1);
+                found = hasBuraco(x,y+1) || hasCreature(x,y+1);
                 break;
             case Feitico.ES:
-                found =hasBuraco(creature.getX(),creature.getY()-1) || hasCreature(creature.getX(),creature.getY()-1);
+                found =hasBuraco(x,y-1) || hasCreature(x,y-1);
                 break;
             case Feitico.EE:
-                found = hasBuraco(creature.getX()+1,creature.getY()) || hasCreature(creature.getX()+1,creature.getY());
+                found = hasBuraco(x+1,y) || hasCreature(x+1,y);
                 break;
             case Feitico.EO:
-                found = hasBuraco(creature.getX()-1,creature.getY()) || hasCreature(creature.getX()-1,creature.getY());
+                found = hasBuraco(x-1,y) || hasCreature(x-1,y);
                 break;
         }
         return found;
