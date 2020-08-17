@@ -206,9 +206,8 @@ public class FandeisiaGameManager implements java.io.Serializable {
             this.results = fandeisia.results;
             this.vencedor = fandeisia.vencedor;
             file.close();
-        } catch (IOException e) { // no caso de não existir input ele cria um novo
-            fandeisia = new FandeisiaGameManager();
-            return true;
+        } catch (IOException e) {
+            return false;
         } catch (ClassNotFoundException e) {
             return false;
         }
