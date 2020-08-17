@@ -60,7 +60,7 @@ public class Feitico {
     public static String[] empurraParaNorte(){
          nome ="EmpurraParaNorte";
          cost = "1";
-         efeito = "Move a criatura 1 unidade para Norte.";
+         efeito = "Move a criatura uma unidade para Norte.";
          String descricao[] = {nome,cost,efeito};
          return descricao;
     }
@@ -68,7 +68,7 @@ public class Feitico {
     public static String[] empurraParaSul(){
         nome ="EmpurraParaSul";
         cost = "1";
-        efeito = "Move a criatura 1 unidade para Sul.";
+        efeito = "Move a criatura uma unidade para Sul.";
         String descricao[] = {nome,cost,efeito};
         return descricao;
     }
@@ -76,7 +76,7 @@ public class Feitico {
     public static String[] empurraParaEste(){
         nome ="EmpurraParaEste";
         cost = "1";
-        efeito = "Move a criatura 1 unidade para Este.";
+        efeito = "Move a criatura uma unidade para Este.";
         String descricao[] = {nome,cost,efeito};
         return descricao;
     }
@@ -84,7 +84,7 @@ public class Feitico {
     public static String[] empurraParaOeste(){
         nome ="EmpurraParaOeste";
         cost = "1";
-        efeito = "Move a criatura 1 unidade para Oeste.";
+        efeito = "Move a criatura uma unidade para Oeste.";
         String descricao[] = {nome,cost,efeito};
         return descricao;
     }

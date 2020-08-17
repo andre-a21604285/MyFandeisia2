@@ -218,7 +218,6 @@ public class FandeisiaGameManager {
     }
 
     public List<Creature> getCreatures() {
-
         return world;
     }
 
