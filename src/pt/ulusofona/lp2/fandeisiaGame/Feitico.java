@@ -61,7 +61,7 @@ public class Feitico {
          nome ="EmpurraParaNorte";
          cost = "1";
          efeito = "Move a criatura uma unidade para Norte.";
-         String descricao[] = {nome,cost,efeito};
+         String descricao[] = {nome,efeito,cost};
          return descricao;
     }
 
@@ -69,7 +69,7 @@ public class Feitico {
         nome ="EmpurraParaSul";
         cost = "1";
         efeito = "Move a criatura uma unidade para Sul.";
-        String descricao[] = {nome,cost,efeito};
+        String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
@@ -77,7 +77,7 @@ public class Feitico {
         nome ="EmpurraParaEste";
         cost = "1";
         efeito = "Move a criatura uma unidade para Este.";
-        String descricao[] = {nome,cost,efeito};
+        String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
@@ -85,7 +85,7 @@ public class Feitico {
         nome ="EmpurraParaOeste";
         cost = "1";
         efeito = "Move a criatura uma unidade para Oeste.";
-        String descricao[] = {nome,cost,efeito};
+        String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
@@ -93,7 +93,7 @@ public class Feitico {
         nome ="ReduzAlcance";
         cost = "2";
         efeito = "Reduz o alcance da criatura para MIN (alcance original, 1)";
-        String descricao[] = {nome,cost,efeito};
+        String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
@@ -101,7 +101,7 @@ public class Feitico {
         nome ="DuplicaAlcance";
         cost = "3";
         efeito = "Aumenta o alcance da criatura para o dobro.";
-        String descricao[] = {nome,cost,efeito};
+        String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
@@ -109,7 +109,7 @@ public class Feitico {
         nome ="Congela";
         cost = "3";
         efeito = "A criatura alvo não se move neste turno.";
-        String descricao[] = {nome,cost,efeito};
+        String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
@@ -117,7 +117,7 @@ public class Feitico {
         nome ="Congela4Ever";
         cost = "10";
         efeito = "A criatura alvo não se move mais até ao final do jogo.";
-        String descricao[] = {nome,cost,efeito};
+        String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
@@ -126,7 +126,7 @@ public class Feitico {
         cost = "8";
         efeito = "Inverte a aplicação de um Feitiço Congela4Ever.\n" +
                 "Ou seja, uma criatura que tenha sido congelada com o Congela4Ever pode voltar a mover-se após ser alvo de um Feitiço de Descongela.";
-        String descricao[] = {nome,cost,efeito};
+        String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 

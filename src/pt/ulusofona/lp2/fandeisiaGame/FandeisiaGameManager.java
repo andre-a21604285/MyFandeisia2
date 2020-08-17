@@ -56,6 +56,7 @@ public class FandeisiaGameManager {
                 map.addPosition(x,y,'d');
                 world.add(new Druida(id,equipa.getId(),x,y,orientacao));
             }
+            equipa.addCreature(id,tipo,x,y,orientacao);//funcao para retirar moedas a equipa
         }
 
     public void addTresure(int id,String type, int x , int y){
