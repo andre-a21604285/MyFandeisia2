@@ -1,6 +1,11 @@
 package pt.ulusofona.lp2.fandeisiaGame;
 
-public class Humano extends Creature {
+import java.io.Serializable;
+
+public class Humano extends Creature implements java.io.Serializable {
+
+    private static final long serialVersionUID = -628789568975888036L;
+
     public static final String DESCRICAO ="Anda duas casas mas nunca nas diagonais";//variavel static por ser final, o valor tipo não altera
     public static final String TIPO = "Humano";//variavel static por ser final, o valor tipo não altera
     public static final String IMAGE_PNG= "human.png";//variavel static por ser final, o valor tipo não altera

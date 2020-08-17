@@ -1,6 +1,10 @@
 package pt.ulusofona.lp2.fandeisiaGame;
+import java.io.Serializable;
+
 //0=vazio  | b=buracos | h=humanos | a=anao | d=dragao | g=gigante | e=elfo | t=tesouros |
-public class Mapa {
+
+public class Mapa implements java.io.Serializable{
+    private static final long serialVersionUID = -628789568975888036L;
     char [][] map;
 
     Mapa(){}

@@ -1,6 +1,11 @@
 package pt.ulusofona.lp2.fandeisiaGame;
 
-public class Druida extends Creature {
+import java.io.Serializable;
+
+public class Druida extends Creature implements java.io.Serializable {
+
+    private static final long serialVersionUID = -628789568975888036L;
+
     public static final String DESCRICAO ="Anda duas casas nos turnos pares e uma casa nos turnos impares";//variavel static por ser final, o valor tipo não altera
     public static final String TIPO = "Druida";//variavel static por ser final, o valor tipo não altera
     public static final String IMAGE_PNG = "druida.png";//variavel static por ser final, o valor tipo não altera

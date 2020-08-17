@@ -1,6 +1,9 @@
 package pt.ulusofona.lp2.fandeisiaGame;
+import java.io.Serializable;
 
-public class Feitico {
+public class Feitico implements java.io.Serializable {
+
+    private static final long serialVersionUID = -628789568975888036L;
 
     private static final String EN="EmpurraParaNorte";
     private static final String ES="EmpurraParaSul";
@@ -11,7 +14,6 @@ public class Feitico {
     private static final String C="Congela";
     private static final String C4="Congela4Ever";
     private static final String D="Descongela";
-
 
     public static String nome;
     public static String cost;

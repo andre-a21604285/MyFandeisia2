@@ -1,10 +1,13 @@
 package pt.ulusofona.lp2.fandeisiaGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class Creature {
+public abstract class Creature implements java.io.Serializable {
+
+    private static final long serialVersionUID = -628789568975888036L;
 
     int id;
     int idEquipa;

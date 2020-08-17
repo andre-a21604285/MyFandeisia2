@@ -1,6 +1,9 @@
 package pt.ulusofona.lp2.fandeisiaGame;
+import java.io.Serializable;
 
-public class Anao extends Creature {
+public class Anao extends Creature implements java.io.Serializable {
+    private static final long serialVersionUID = -628789568975888036L;
+
     public static final String DESCRICAO ="Só anda uma casa e nunca nas diagonais";//variavel static por ser final, o valor tipo não altera
     public static final String TIPO = "Anao";//variavel static por ser final, o valor tipo não altera
     public static final String IMAGE_PNG = "anao.png";//variavel static por ser final, o valor tipo não altera

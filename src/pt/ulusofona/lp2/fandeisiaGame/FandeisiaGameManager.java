@@ -4,11 +4,12 @@ import java.util.*;
 import java.lang.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 
-public class FandeisiaGameManager {
+public class FandeisiaGameManager implements java.io.Serializable {
 
-    private int i;
+    private static final long serialVersionUID = -628789568975888036L;
     static int turn;
     int linhas;
     int colunas;
@@ -174,48 +175,44 @@ public class FandeisiaGameManager {
 
     public boolean saveGame(File fich){
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fich));
-            out.writeObject(turn);
-            out.writeObject(linhas);
-            out.writeObject(colunas);
-            out.writeObject(user);
-            out.writeObject(computer);
-            out.writeObject(corrente);
-            out.writeObject(world);
-            out.writeObject(tresures);
-            out.writeObject(holes);
-            out.writeObject(feiticosTurno);
-            out.writeObject(congelados);
-            out.writeObject(map);
-            out.flush();
-            out.close();
-            return true;
-        } catch (IOException e) {
+            ObjectOutputStream file = new ObjectOutputStream(new FileOutputStream(fich));
+            file.writeObject(this);
+            file.flush();
+            file.close();
+        } catch (IOException e){
             return false;
         }
+        return true;
 
     }
 
     public boolean loadGame(File fich){
+        FandeisiaGameManager fandeisia = null;
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(fich));
-            turn = in.readInt();
-            linhas =in.readInt();
-            colunas=in.readInt();
-            user=(Equipa)in.readObject();
-            computer=(Equipa)in.readObject();
-            corrente=(Equipa)in.readObject();
-            world=(List<Creature>) in.readObject();
-            tresures=(List<Tresure>) in.readObject();
-            holes=(List<Buraco>) in.readObject();
-            feiticosTurno=(Map<String, Creature>) in.readObject();
-            congelados=(List<Creature>) in.readObject();
-            map=(Mapa) in.readObject();
-            in.close();
+            ObjectInputStream file = new ObjectInputStream(new FileInputStream(fich));
+            fandeisia = (FandeisiaGameManager) file.readObject();
+            this.user = fandeisia.user;
+            this.computer = fandeisia.computer;
+            this.corrente = fandeisia.corrente;
+            this.world = fandeisia.world;
+            this.tresures = fandeisia.tresures;
+            this.map = fandeisia.map;
+            this.stats = fandeisia.stats;
+            this.holes = fandeisia.holes;
+            this.congelados = fandeisia.congelados;
+            this.feiticosTurno = fandeisia.feiticosTurno;
+            this.colunas = fandeisia.colunas;
+            this.linhas = fandeisia.linhas;
+            this.results = fandeisia.results;
+            this.vencedor = fandeisia.vencedor;
+            file.close();
+        } catch (IOException e) { // no caso de não existir input ele cria um novo
+            fandeisia = new FandeisiaGameManager();
             return true;
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             return false;
         }
+        return true;
     }
 
     public List<Creature> getCreatures() {

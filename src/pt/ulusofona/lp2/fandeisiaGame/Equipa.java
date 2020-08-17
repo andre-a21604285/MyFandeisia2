@@ -1,12 +1,13 @@
 package pt.ulusofona.lp2.fandeisiaGame;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.io.Serializable;
 
-public class Equipa {
+public class Equipa implements java.io.Serializable {
     private int id, moedas, pontos, size;
+    private static final long serialVersionUID = -628789568975888036L;
 
 
     Equipa(int id){

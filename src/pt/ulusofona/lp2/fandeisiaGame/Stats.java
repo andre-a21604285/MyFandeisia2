@@ -1,12 +1,15 @@
 package pt.ulusofona.lp2.fandeisiaGame;
 
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.io.Serializable;
 
-public class Stats {
+
+
+public class Stats implements java.io.Serializable{
+    private static final long serialVersionUID = -628789568975888036L;
 
     public List<String> as3MaisCarregadas(List<Creature> world){
         List<String> tmp = new ArrayList<String>();

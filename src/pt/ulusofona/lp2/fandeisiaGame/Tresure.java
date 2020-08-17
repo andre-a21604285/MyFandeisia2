@@ -1,6 +1,10 @@
 package pt.ulusofona.lp2.fandeisiaGame;
 
-public class Tresure{
+import java.io.Serializable;
+
+public class Tresure implements java.io.Serializable {
+    private static final long serialVersionUID = -628789568975888036L;
+
     int id;
     int x;
     int y;

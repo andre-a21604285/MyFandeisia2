@@ -1,6 +1,10 @@
 package pt.ulusofona.lp2.fandeisiaGame;
 
-public class Gigante extends Creature {
+import java.io.Serializable;
+
+public class Gigante extends Creature implements java.io.Serializable {
+    private static final long serialVersionUID = -628789568975888036L;
+
     public static final String DESCRICAO ="Anda tres casas mas nunca nas diagonais";//variavel static por ser final, o valor tipo não altera
     public static final String TIPO = "Gigante";//variavel static por ser final, o valor tipo não altera
     public static final String IMAGE_PNG = "gigante.png";//variavel static por ser final, o valor tipo não altera

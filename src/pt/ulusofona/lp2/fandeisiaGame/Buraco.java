@@ -1,6 +1,9 @@
 package pt.ulusofona.lp2.fandeisiaGame;
+import java.io.Serializable;
 
-public class Buraco {
+public class Buraco implements java.io.Serializable  {
+    private static final long serialVersionUID = -628789568975888036L;
+
     int id;
     int x;
     int y;

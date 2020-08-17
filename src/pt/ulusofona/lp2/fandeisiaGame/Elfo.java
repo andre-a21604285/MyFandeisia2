@@ -1,6 +1,11 @@
 package pt.ulusofona.lp2.fandeisiaGame;
 
-public class Elfo extends Creature {
+import java.io.Serializable;
+
+public class Elfo extends Creature implements java.io.Serializable {
+
+    private static final long serialVersionUID = -628789568975888036L;
+
     public static final String DESCRICAO ="Anda por todas as casas a volta e duas de cada vez";//variavel static por ser final, o valor tipo não altera
     public static final String TIPO = "Elfo";//variavel static por ser final, o valor tipo não altera
     public static final String IMAGE_PNG = "elfo.png";//variavel static por ser final, o valor tipo não altera
