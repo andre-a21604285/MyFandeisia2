@@ -4,16 +4,11 @@ package pt.ulusofona.lp2.fandeisiaGame;
 public class InsufficientCoinsException extends Exception {
     private Equipa user;
     private Equipa computer;
-    private String message;
 
     public InsufficientCoinsException(Equipa user, Equipa computer, String message){
+        super(message);
         this.user=user;
         this.computer=computer;
-        this.message=message;
-    }
-
-    public String getMessage(){
-            return message;
     }
 
     public boolean teamRequiresMoreCoins(int teamID){

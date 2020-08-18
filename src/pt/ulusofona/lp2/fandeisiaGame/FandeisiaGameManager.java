@@ -29,6 +29,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
     public FandeisiaGameManager() {
         user = new Equipa(10);
         computer = new Equipa(20);
+        corrente = user; // so para nao dar null
         feiticosTurno = new HashMap<>();
         congelados = new ArrayList();
         map = new Mapa(linhas,colunas);
@@ -41,10 +42,10 @@ public class FandeisiaGameManager implements java.io.Serializable {
             if(tipo.equals("Elfo")){
                 map.addPosition(x,y,'e');
                 world.add(new Elfo(id,equipa.getId(),x,y,orientacao));
-            }else if(tipo.equals("Anao")){
+            }else if(tipo.equals("Anão")){
                 map.addPosition(x,y,'a');
                 world.add(new Anao(id,equipa.getId(),x,y,orientacao));
-            }else if(tipo.equals("Dragao")){
+            }else if(tipo.equals("Dragão")){
                 map.addPosition(x,y,'d');
                 world.add(new Dragao(id,equipa.getId(),x,y,orientacao));
             }else if(tipo.equals("Gigante")){
@@ -70,15 +71,14 @@ public class FandeisiaGameManager implements java.io.Serializable {
         holes.add(new Buraco(id,x,y));
     }
 
-    public void startGame(String[] content, int rows, int columns) throws InsufficientCoinsException {
+    public void startGame(String[] content, int rows, int columns) throws InsufficientCoinsException{
         int count;
         linhas = rows;
         colunas = columns;
         map = new Mapa(columns,rows);
         boolean userValid=true;
         boolean computerValid=true;
-        String message;
-
+        String message = "";
         for (count = 0; count < content.length; count++) {
             String dados[] = content[count].split(", ");
             dados[0] = dados[0].replace("id: ", "");
@@ -90,49 +90,47 @@ public class FandeisiaGameManager implements java.io.Serializable {
                 dados[3] = dados[3].replace("y: ", "");
                 int x = Integer.parseInt(dados[2]);
                 int y = Integer.parseInt(dados[3]);
-                if(checkAdd(x,y,rows,columns,map)){
-                    addTresure(id,type,x,y);
+                if (checkAdd(x, y, rows, columns, map)) {
+                    addTresure(id, type, x, y);
                 }
             } else if (dados[1].equals("hole")) {
                 dados[2] = dados[2].replace("x: ", "");
                 dados[3] = dados[3].replace("y: ", "");
                 int x = Integer.parseInt(dados[2]);
                 int y = Integer.parseInt(dados[3]);
-                if(checkAdd(x,y,rows,columns,map)){
-                    addHole(id,x,y);
+                if (checkAdd(x, y, rows, columns, map)) {
+                    addHole(id, x, y);
                 }
             } else {
-                    dados[2] = dados[2].replace("teamId: ", "");
-                    int teamId = Integer.parseInt(dados[2]);
-                    dados[3] = dados[3].replace("x: ", "");
-                    int x = Integer.parseInt(dados[3]);
-                    dados[4] = dados[4].replace("y: ", "");
-                    int y = Integer.parseInt(dados[4]);
-                    dados[5] = dados[5].replace("orientation: ", "");
-                    String orientation = dados[5];
-                    if(checkAdd(x,y,rows,columns,map)){
-                        addCreature(getEquipa(teamId),id,type,orientation,x,y);
-                    }
-                    if(getEquipa(teamId).getMoedas() < 0){
-                        if(teamId ==10 ) {
-                            userValid = false;
-                        }else {
-                            computerValid = false;
-                        }
-                    }
+                dados[2] = dados[2].replace("teamId: ", "");
+                int teamId = Integer.parseInt(dados[2]);
+                dados[3] = dados[3].replace("x: ", "");
+                int x = Integer.parseInt(dados[3]);
+                dados[4] = dados[4].replace("y: ", "");
+                int y = Integer.parseInt(dados[4]);
+                dados[5] = dados[5].replace("orientation: ", "");
+                String orientation = dados[5];
+                if (checkAdd(x, y, rows, columns, map)) {
+                    addCreature(getEquipa(teamId), id, type, orientation, x, y);
                 }
             }
-        if(!userValid && !computerValid){
-            message = "Ambas as equipas não respeitam o plafond";
-            throw  new InsufficientCoinsException(user,computer,message);
-        }else if(!userValid && computerValid){
-            message = "O user não respeita o plafond ";
-            throw  new InsufficientCoinsException(user,computer,message);
-        }else if(userValid && !computerValid){
-            message = "O computer não respeita o plafond";
-            throw  new InsufficientCoinsException(user,computer,message);
         }
-        System.out.println("numero de criaturas = "+ world.size() );
+        if (user.getMoedas() < 0) {
+            userValid = false;
+        }
+        if (computer.getMoedas() < 0) {
+            computerValid = false;
+        }
+        if (!userValid && !computerValid) {
+            message = "Ambas as equipas não respeitam o plafond";
+            throw new InsufficientCoinsException(user, computer, message);
+        } else if (!userValid && computerValid) {
+            message = "O user não respeita o plafond ";
+            throw new InsufficientCoinsException(user, computer, message);
+        } else if (userValid && !computerValid) {
+            message = "O computer não respeita o plafond";
+            throw new InsufficientCoinsException(user, computer, message);
+        }
     }
 
 
@@ -306,7 +304,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
         Creature creature = getCreatureByPosition(x, y);
         if(creature==null){
             return false;
-        }else if(caiuEmBuraco(spellName,x,y)){
+        }else if(canMove(spellName,x,y)){
             return false;
         }
         int equipaId = creature.getIdEquipa();
@@ -532,7 +530,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
         return found;
     }
 
-    private boolean caiuEmBuraco(String name,int x, int y){
+    private boolean canMove(String name,int x, int y){
         boolean found = false;
         switch (name){
             case Feitico.EN:

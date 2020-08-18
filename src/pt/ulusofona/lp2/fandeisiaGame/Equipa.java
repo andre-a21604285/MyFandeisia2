@@ -19,10 +19,10 @@ public class Equipa implements java.io.Serializable {
 
     public void addCreature(int id, String tipo, int x, int y, String orientacao){
         switch(tipo){
-            case "Anao":
+            case "Anão":
                 setMoedas(Integer.parseInt(Anao.COST));
                 break;
-            case "Dragao":
+            case "Dragão":
                 setMoedas(Integer.parseInt(Dragao.COST));
                 break;
             case "Humano":

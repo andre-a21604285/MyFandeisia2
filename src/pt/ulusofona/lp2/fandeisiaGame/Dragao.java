@@ -6,7 +6,7 @@ public class Dragao extends Creature implements java.io.Serializable {
     private static final long serialVersionUID = -628789568975888036L;
 
     public static final String DESCRICAO ="Voa por todas as casas a volta ";//variavel static por ser final, o valor tipo não altera
-    public static final String TIPO = "Dragao";//variavel static por ser final, o valor tipo não altera
+    public static final String TIPO = "Dragão";//variavel static por ser final, o valor tipo não altera
     public static final String IMAGE_PNG = "dragon.png";//variavel static por ser final, o valor tipo não altera
     public static final String COST = "9";//variavel static por ser final, o valor tipo não altera
     private int movement;
