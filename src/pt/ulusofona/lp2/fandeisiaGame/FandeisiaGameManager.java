@@ -508,6 +508,25 @@ public class FandeisiaGameManager implements java.io.Serializable {
         return creature;
     }
 
+    private boolean canMove(String name,int x, int y){
+        boolean found = false;
+        switch (name){
+            case Feitico.EN:
+                found = hasBuraco(x,y+1) || hasCreature(x,y+1) || outOfMap(x,y+1);
+                break;
+            case Feitico.ES:
+                found =hasBuraco(x,y-1) || hasCreature(x,y-1) || outOfMap(x,y-1);
+                break;
+            case Feitico.EE:
+                found = hasBuraco(x+1,y) || hasCreature(x+1,y) || outOfMap(x+1,y);
+                break;
+            case Feitico.EO:
+                found = hasBuraco(x-1,y) || hasCreature(x-1,y) || outOfMap(x-1,y);
+                break;
+        }
+        return found;
+    }
+
     private boolean hasBuraco(int x, int y){
         boolean found=false;
         for(int i=0; i<holes.size();i++){
@@ -530,23 +549,11 @@ public class FandeisiaGameManager implements java.io.Serializable {
         return found;
     }
 
-    private boolean canMove(String name,int x, int y){
-        boolean found = false;
-        switch (name){
-            case Feitico.EN:
-                found = hasBuraco(x,y+1) || hasCreature(x,y+1);
-                break;
-            case Feitico.ES:
-                found =hasBuraco(x,y-1) || hasCreature(x,y-1);
-                break;
-            case Feitico.EE:
-                found = hasBuraco(x+1,y) || hasCreature(x+1,y);
-                break;
-            case Feitico.EO:
-                found = hasBuraco(x-1,y) || hasCreature(x-1,y);
-                break;
+    private boolean outOfMap(int x, int y){
+        if(x>=0 && y>=0 && x<colunas && y<linhas){
+            return true;
         }
-        return found;
+        return false;
     }
 
     private void tiraGelo(){

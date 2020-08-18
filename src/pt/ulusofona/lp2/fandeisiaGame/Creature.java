@@ -98,7 +98,7 @@ public abstract class Creature implements java.io.Serializable {
         return getNrTreasure() / getKm();
     }
     public String toString(){
-        String toString = (id + " | " + tipo + " | " + idEquipa + " | " + nrPontos + "[@ (" + x + ", " + y+") "+ orientacao+"]");
+        String toString = id + " | " + tipo + " | " + idEquipa + " | " + nrPontos + "[ @ (" + x + ", " + y+") "+ orientacao+"]";
         return toString;
     }
 
