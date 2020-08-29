@@ -141,7 +141,7 @@ public class Feitico implements java.io.Serializable {
         creature.setY(creature.getY()+1);
     }
     private void paraEste( Creature creature){
-        creature.setY(creature.getX()+1);;
+        creature.setX(creature.getX()+1);
     }
     private void paraOeste( Creature creature){
         creature.setX(creature.getX()-1);

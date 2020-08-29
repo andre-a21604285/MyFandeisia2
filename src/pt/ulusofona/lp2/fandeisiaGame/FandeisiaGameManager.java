@@ -302,15 +302,13 @@ public class FandeisiaGameManager implements java.io.Serializable {
 
         Feitico feitico = new Feitico(spellName);
         Creature creature = getCreatureByPosition(x, y);
-        if(creature==null){
-            return false;
-        }else if(canMove(spellName,x,y)){
+        if((creature==null || !canMove(spellName,x,y))){
             return false;
         }
         int equipaId = creature.getIdEquipa();
         int cost = feitico.getFeitico(creature,spellName);
         feiticosTurno.put(spellName,creature);
-        getEquipa(equipaId).setMoedas(cost);
+        getEquipa(corrente.getId()).setMoedas(cost);
         if(spellName.equals("Congela")){
             congelados.add(creature);
         }
@@ -511,10 +509,10 @@ public class FandeisiaGameManager implements java.io.Serializable {
     private boolean canMove(String name,int x, int y){
         boolean found = false;
         switch (name){
-            case Feitico.EN:
+            case Feitico.ES:
                 found = hasBuraco(x,y+1) || hasCreature(x,y+1) || outOfMap(x,y+1);
                 break;
-            case Feitico.ES:
+            case Feitico.EN:
                 found =hasBuraco(x,y-1) || hasCreature(x,y-1) || outOfMap(x,y-1);
                 break;
             case Feitico.EE:
