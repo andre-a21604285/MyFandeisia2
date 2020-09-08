@@ -5,11 +5,13 @@ import java.io.Serializable;
 public class Dragao extends Creature implements java.io.Serializable {
     private static final long serialVersionUID = -628789568975888036L;
 
-    public static final String DESCRICAO ="Voa por todas as casas a volta ";//variavel static por ser final, o valor tipo não altera
+    public static final String DESCRICAO ="Voa por todas as casas a volta, tres de cada vez ";//variavel static por ser final, o valor tipo não altera
     public static final String TIPO = "Dragão";//variavel static por ser final, o valor tipo não altera
     public static final String IMAGE_PNG = "dragon.png";//variavel static por ser final, o valor tipo não altera
     public static final String COST = "9";//variavel static por ser final, o valor tipo não altera
     private int movement;
+
+
     private static final int INICIALMOVEMENT = 3;//variavel static por ser final, o valor tipo não altera
     int custo;
 
@@ -42,6 +44,11 @@ public class Dragao extends Creature implements java.io.Serializable {
             y+=1;
             x-=1;
         }
+    }
+
+
+    public int getINICIALMOVEMENT() {
+        return INICIALMOVEMENT;
     }
 
     public void setOrientation(){

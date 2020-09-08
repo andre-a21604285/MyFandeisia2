@@ -24,15 +24,30 @@ public class Anao extends Creature implements java.io.Serializable {
 
     public void movimento(){
         if(orientacao.equals("Norte")){
-                y-=movement;
+                y-=1;
         }else if(orientacao.equals("Sul")){
-                y+=movement;
+                y+=1;
         }else if(orientacao.equals("Este")){
-                x+=movement;
+                x+=1;
         }else if(orientacao.equals("Oeste")){
-                x-=movement;
+                x-=1;
         }
     }
+    public int getINICIALMOVEMENT() {
+        return INICIALMOVEMENT;
+    }
+    public void movimentoFinal(){
+        if(orientacao.equals("Norte")){
+            y-=movement;
+        }else if(orientacao.equals("Sul")){
+            y+=movement;
+        }else if(orientacao.equals("Este")){
+            x+=movement;
+        }else if(orientacao.equals("Oeste")){
+            x-=movement;
+        }
+    }
+
     public void setOrientation(){
         if(orientacao.equals(normalOrientation.get(normalOrientation.size()-1))){
             orientacao = "Norte";

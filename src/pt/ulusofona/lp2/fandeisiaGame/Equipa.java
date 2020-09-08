@@ -98,7 +98,8 @@ public class Equipa implements java.io.Serializable {
                isValid = !map.checkCreature(x,y);
         }else if(creature.getTipo().equals("Gigante")){
             isValid = !map.checkGigante(x,y);
-        }else if(creature.getTipo().equals("Anao")||creature.getTipo().equals("Humano")){
+        }else if(creature.getTipo().equals("Anão") || creature.getTipo().equals("Humano")
+                || creature.getTipo().equals("Druida")){
             isValid=!(map.checkCreature(x,y) || map.checkBuraco(x,y));
         }else{
             isValid=true;

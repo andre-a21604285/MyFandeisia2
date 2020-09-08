@@ -46,6 +46,9 @@ public class Druida extends Creature implements java.io.Serializable {
             x-=1;
         }
     }
+    public int getINICIALMOVEMENT() {
+        return INICIALMOVEMENT;
+    }
 
     public void setOrientation(){
         if(orientacao.equals(unnormalOrientation.get(unnormalOrientation.size()-1))){

@@ -25,6 +25,8 @@ public class FandeisiaGameManager implements java.io.Serializable {
     Map<String,Creature> feiticosTurno;
     List<Creature> congelados;
     Mapa map;
+    int xPontos;
+    int yPontos;
 
     public FandeisiaGameManager() {
         user = new Equipa(10);
@@ -312,6 +314,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
         if(spellName.equals("Congela")){
             congelados.add(creature);
         }
+        sumPoints(creature,xPontos,yPontos);
         return true;
     }
 
@@ -321,7 +324,8 @@ public class FandeisiaGameManager implements java.io.Serializable {
             Creature v = entry.getValue();
             if(v.getX() == x && v.getY()==y ){
                 spellName = entry.getKey();
-                break;
+                return spellName;
+               // break;
             }
         }
         return spellName;
@@ -435,55 +439,44 @@ public class FandeisiaGameManager implements java.io.Serializable {
         return tmp;
     }
 
-    // - Metodos privados - //
     public void movimento(){
         List<Creature> creatures = getCreaturesFromCurrentTeam();
         for(int i = 0 ; i<creatures.size(); i++){
-            for(int j=0;j<creatures.get(i).getMovement();j++){
-                int x = creatures.get(i).getX() + corrente.position(creatures.get(i).getOrientation())[0];
-                int y = creatures.get(i).getY() + corrente.position(creatures.get(i).getOrientation())[1];
-                if(x<colunas && x>=0 && y<linhas && y>=0 ){
-                    if(j==creatures.get(i).getMovement()-1){ //TALVEZ APAGAR
-                        if(!corrente.checkMovement(x,y,creatures.get(i),map) || map.checkBuraco(x,y) || map.checkCreature(x,y)){
-                            creatures.get(i).setOrientation();
-                            break;
+            Creature creature=creatures.get(i);
+            if(checkFinalMovement(creature)){
+                for(int j=0;j<creature.getMovement();j++){
+                    int x = creature.getX() + corrente.position(creature.getOrientation())[0];
+                    int y = creature.getY() + corrente.position(creature.getOrientation())[1];
+                    if(j==creature.getMovement()-1){ //movimento final
+                        if(corrente.isDruidaInPar(creature)) {
+                            tresures.add(new Tresure("bronze",creature.getX(),creature.getY()));
                         }
-                        if(corrente.isDruidaInPar(creatures.get(i))) {
-                            tresures.add(new Tresure("bronze",creatures.get(i).getX(),creatures.get(i).getY()));
-                        }
-                        creatures.get(i).incKm();
-                        creatures.get(i).movimento();
-                        for(int z=0;z<tresures.size();z++){
-                            if(tresures.get(z).getX()==x && tresures.get(z).getY()==y){
-                                corrente.setPontos(tresures.get(z).getPoints(),creatures.get(i));
-                                tresures.remove(tresures.get(z));
-                            }
-                        }
+                        creature.incKm();
+                        creature.movimento();
+                        sumPoints(creature,x,y);
 
-                    }else if(!corrente.checkMovement(x,y,creatures.get(i),map)){
+                    }else if(!corrente.checkMovement(x,y,creature,map)){
                         break;
                     }else{
-                        if(corrente.isDruidaInPar(creatures.get(i))) {
-                            tresures.add(new Tresure("bronze",creatures.get(i).getX(),creatures.get(i).getY()));
-                            map.addPosition(creatures.get(i).getX(), creatures.get(i).getY(), 'b');
+                        if(corrente.isDruidaInPar(creature)) {
+                            tresures.add(new Tresure("bronze",creature.getX(),creature.getY()));
+                            map.addPosition(creature.getX(), creature.getY(), 't');
                         }
-                        creatures.get(i).incKm();
-                        getCreatureByPosition(creatures.get(i).getX(),creatures.get(i).getY()).movimento();//update world
-                        for(int z=0;z<tresures.size();z++){
-                            if(tresures.get(z).getX()==x && tresures.get(z).getY()==y){
-                                corrente.setPontos(tresures.get(z).getPoints(),creatures.get(i));
-                                tresures.remove(tresures.get(z));
-                            }
-                        }
+                        creature.incKm();
+                        //update movimento da creature em world
+                        getCreatureByPosition(creature.getX(),creature.getY()).movimento();
+
+                        sumPoints(creature,x,y);
                     }
-                }else{
-                    creatures.get(i).setOrientation();
-                    break;
                 }
+            }else{
+                creature.setOrientation();
+                break;
             }
         }
     }
 
+    // - Metodos privados - //
     private boolean pointsWorld(){
         int sum=0;
         for(Tresure tresure : tresures){
@@ -507,22 +500,30 @@ public class FandeisiaGameManager implements java.io.Serializable {
     }
 
     private boolean canMove(String name,int x, int y){
-        boolean found = false;
+        boolean isValid = false;
         switch (name){
             case Feitico.ES:
-                found = hasBuraco(x,y+1) || hasCreature(x,y+1) || outOfMap(x,y+1);
+                isValid = !hasBuraco(x,y+1) && !hasCreature(x,y+1) && insideOfMap(x,y+1);
+                xPontos = x;
+                yPontos = y+1;
                 break;
             case Feitico.EN:
-                found =hasBuraco(x,y-1) || hasCreature(x,y-1) || outOfMap(x,y-1);
+                isValid = !hasBuraco(x,y-1) && !hasCreature(x,y-1) && insideOfMap(x,y-1);
+                xPontos = x;
+                yPontos = y-1;
                 break;
             case Feitico.EE:
-                found = hasBuraco(x+1,y) || hasCreature(x+1,y) || outOfMap(x+1,y);
+                isValid = !hasBuraco(x+1,y) && !hasCreature(x+1,y) && insideOfMap(x+1,y);
+                xPontos = x+1;
+                yPontos = y;
                 break;
             case Feitico.EO:
-                found = hasBuraco(x-1,y) || hasCreature(x-1,y) || outOfMap(x-1,y);
+                isValid = !hasBuraco(x-1,y) && !hasCreature(x-1,y) && insideOfMap(x-1,y);
+                xPontos = x-1;
+                yPontos = y;
                 break;
         }
-        return found;
+        return isValid;
     }
 
     private boolean hasBuraco(int x, int y){
@@ -547,11 +548,73 @@ public class FandeisiaGameManager implements java.io.Serializable {
         return found;
     }
 
-    private boolean outOfMap(int x, int y){
+    private boolean insideOfMap(int x, int y){
         if(x>=0 && y>=0 && x<colunas && y<linhas){
             return true;
         }
         return false;
+    }
+
+    private void sumPoints(Creature creature, int x, int y){
+        Tresure toBeDeleted = null;
+        for(Tresure tresure : tresures ){
+            if(tresure.getX()==x && tresure.getY()==y){
+                corrente.setPontos(tresure.getPoints(),creature);
+                toBeDeleted = tresure;
+                break;
+            }
+        }
+        if(toBeDeleted != null){
+            tresures.remove(toBeDeleted);
+        }
+    }
+
+    private boolean checkFinalMovement(Creature creature){
+        int current_x = creature.getX();
+        int current_y = creature.getY();
+        int final_x= current_x;
+        int final_y = current_y;
+        String orientation = creature.getOrientation();
+        int movement = creature.getMovement();
+
+        switch (orientation) {
+            case "Norte":
+                final_y -= movement;
+                break;
+            case "Sul":
+                final_y += movement;
+                break;
+            case "Este":
+                final_x += movement;
+                break;
+            case "Oeste":
+                final_x -= movement;
+                break;
+            case "Nordeste":
+                final_y -= movement;
+                final_x += movement;
+                break;
+            case "Noroeste":
+                final_y -= movement;
+                final_x -= movement;
+                break;
+            case "Sudeste":
+                final_y += movement;
+                final_x += movement;
+                break;
+            case "Sudoeste":
+                final_y += movement;
+                final_x -= movement;
+                break;
+            default:
+                return false;
+        }
+
+        boolean check_inside_map = insideOfMap(final_x,final_y);
+        boolean check_hole_path = hasBuraco(final_x,final_y);
+        boolean check_creature_path = hasCreature(final_x,final_y);
+
+        return check_inside_map && !check_hole_path && !check_creature_path;
     }
 
     private void tiraGelo(){

@@ -33,6 +33,10 @@ public class Gigante extends Creature implements java.io.Serializable {
         }
     }
 
+    public int getINICIALMOVEMENT() {
+        return INICIALMOVEMENT;
+    }
+
     public void setOrientation(){
         if(orientacao.equals(normalOrientation.get(normalOrientation.size()-1))){
             orientacao = "Norte";
