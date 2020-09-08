@@ -430,7 +430,6 @@ public class FandeisiaGameManager implements java.io.Serializable {
         tmp.put("tiposDeCriaturaESeusTesouros",stats.tiposDeCriaturaESeusTesouros(world));
         tmp.put("viradosPara",stats.viradosPara(world));
         tmp.put("asMaisEficientes",stats.asMaisEficientes(world));
-
         return tmp;
     }
 
