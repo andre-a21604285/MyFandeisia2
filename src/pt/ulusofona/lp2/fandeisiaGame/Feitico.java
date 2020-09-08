@@ -15,15 +15,9 @@ public class Feitico implements java.io.Serializable {
     public static final String C4="Congela4Ever";
     public static final String D="Descongela";
 
-    public static String nome;
-    public static String cost;
-    public static String efeito;
 
 
-    Feitico(String nome){
-        this.nome=nome;
-        this.cost=cost;
-        this.efeito=efeito;
+    Feitico(){
     }
 
     public int getFeitico(Creature creature, String name){
@@ -60,73 +54,73 @@ public class Feitico implements java.io.Serializable {
     }
 
     public static String[] empurraParaNorte(){
-         nome ="EmpurraParaNorte";
-         cost = "1";
-         efeito = "Move a criatura uma unidade para Norte.";
+         String nome ="EmpurraParaNorte";
+         String cost = "1";
+         String efeito = "Move a criatura uma unidade para Norte.";
          String descricao[] = {nome,efeito,cost};
          return descricao;
     }
 
     public static String[] empurraParaSul(){
-        nome ="EmpurraParaSul";
-        cost = "1";
-        efeito = "Move a criatura uma unidade para Sul.";
+        String nome ="EmpurraParaSul";
+        String cost = "1";
+        String efeito = "Move a criatura uma unidade para Sul.";
         String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
     public static String[] empurraParaEste(){
-        nome ="EmpurraParaEste";
-        cost = "1";
-        efeito = "Move a criatura uma unidade para Este.";
+        String nome ="EmpurraParaEste";
+        String cost = "1";
+        String efeito = "Move a criatura uma unidade para Este.";
         String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
     public static String[] empurraParaOeste(){
-        nome ="EmpurraParaOeste";
-        cost = "1";
-        efeito = "Move a criatura uma unidade para Oeste.";
+        String nome ="EmpurraParaOeste";
+        String cost = "1";
+        String efeito = "Move a criatura uma unidade para Oeste.";
         String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
     public static String[] reduzAlcance(){
-        nome ="ReduzAlcance";
-        cost = "2";
-        efeito = "Reduz o alcance da criatura para MIN (alcance original, 1)";
+        String nome ="ReduzAlcance";
+        String cost = "2";
+        String efeito = "Reduz o alcance da criatura para MIN (alcance original, 1)";
         String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
     public static String[] duplicaAlcance(){
-        nome ="DuplicaAlcance";
-        cost = "3";
-        efeito = "Aumenta o alcance da criatura para o dobro.";
+        String nome ="DuplicaAlcance";
+        String cost = "3";
+        String efeito = "Aumenta o alcance da criatura para o dobro.";
         String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
     public static String[] congela(){
-        nome ="Congela";
-        cost = "3";
-        efeito = "A criatura alvo não se move neste turno.";
+        String nome ="Congela";
+        String cost = "3";
+        String efeito = "A criatura alvo não se move neste turno.";
         String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
     public static String[] congela4Ever(){
-        nome ="Congela4Ever";
-        cost = "10";
-        efeito = "A criatura alvo não se move mais até ao final do jogo.";
+        String nome ="Congela4Ever";
+        String cost = "10";
+        String efeito = "A criatura alvo não se move mais até ao final do jogo.";
         String descricao[] = {nome,efeito,cost};
         return descricao;
     }
 
     public static String[] descongela(){
-        nome ="Descongela";
-        cost = "8";
-        efeito = "Inverte a aplicação de um Feitiço Congela4Ever.\n" +
+        String nome ="Descongela";
+        String cost = "8";
+        String efeito = "Inverte a aplicação de um Feitiço Congela4Ever.\n" +
                 "Ou seja, uma criatura que tenha sido congelada com o Congela4Ever pode voltar a mover-se após ser alvo de um Feitiço de Descongela.";
         String descricao[] = {nome,efeito,cost};
         return descricao;

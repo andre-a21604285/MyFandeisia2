@@ -25,8 +25,6 @@ public class FandeisiaGameManager implements java.io.Serializable {
     Map<String,Creature> feiticosTurno;
     List<Creature> congelados;
     Mapa map;
-    int xPontos;
-    int yPontos;
 
     public FandeisiaGameManager() {
         user = new Equipa(10);
@@ -300,32 +298,29 @@ public class FandeisiaGameManager implements java.io.Serializable {
             return false;
     }
 
-    public boolean enchant(int x, int y, String spellName){ //vamos fazer um arraybidimensional
+    public boolean enchant(int x, int y, String spellName){
 
-        Feitico feitico = new Feitico(spellName);
+        Feitico feitico = new Feitico();
         Creature creature = getCreatureByPosition(x, y);
-        if((creature==null || !canMove(spellName,x,y))){
+        if((creature==null || !canMove(creature,spellName,x,y))){
             return false;
         }
-        int equipaId = creature.getIdEquipa();
         int cost = feitico.getFeitico(creature,spellName);
         feiticosTurno.put(spellName,creature);
         getEquipa(corrente.getId()).setMoedas(cost);
         if(spellName.equals("Congela")){
             congelados.add(creature);
         }
-        sumPoints(creature,xPontos,yPontos);
         return true;
     }
 
     public String getSpell(int x, int y) { //verificar no mapa de feiticos qual a criatura afetada
-        String spellName="";
+        String spellName=null;
         for (Map.Entry<String, Creature> entry : feiticosTurno.entrySet()) {
             Creature v = entry.getValue();
             if(v.getX() == x && v.getY()==y ){
                 spellName = entry.getKey();
-                return spellName;
-               // break;
+                break;
             }
         }
         return spellName;
@@ -444,10 +439,14 @@ public class FandeisiaGameManager implements java.io.Serializable {
         for(int i = 0 ; i<creatures.size(); i++){
             Creature creature=creatures.get(i);
             if(checkFinalMovement(creature)){
-                for(int j=0;j<creature.getMovement();j++){
+                int creaturesMoves = creature.getMovement();
+                if(creature.getTipo().equals("Druida") && turn %2 == 0){
+                    creaturesMoves = 2;
+                }
+                for(int j=0;j<creaturesMoves;j++){
                     int x = creature.getX() + corrente.position(creature.getOrientation())[0];
                     int y = creature.getY() + corrente.position(creature.getOrientation())[1];
-                    if(j==creature.getMovement()-1){ //movimento final
+                    if(j==creaturesMoves-1){ //movimento final
                         if(corrente.isDruidaInPar(creature)) {
                             tresures.add(new Tresure("bronze",creature.getX(),creature.getY()));
                         }
@@ -499,29 +498,30 @@ public class FandeisiaGameManager implements java.io.Serializable {
         return creature;
     }
 
-    private boolean canMove(String name,int x, int y){
+    private boolean canMove(Creature creature, String name,int x, int y){
         boolean isValid = false;
+        int final_x = x;
+        int final_y = y;
         switch (name){
             case Feitico.ES:
                 isValid = !hasBuraco(x,y+1) && !hasCreature(x,y+1) && insideOfMap(x,y+1);
-                xPontos = x;
-                yPontos = y+1;
+                final_y = y+1;
                 break;
             case Feitico.EN:
                 isValid = !hasBuraco(x,y-1) && !hasCreature(x,y-1) && insideOfMap(x,y-1);
-                xPontos = x;
-                yPontos = y-1;
+                final_y = y-1;
                 break;
             case Feitico.EE:
                 isValid = !hasBuraco(x+1,y) && !hasCreature(x+1,y) && insideOfMap(x+1,y);
-                xPontos = x+1;
-                yPontos = y;
+                final_x = x+1;
                 break;
             case Feitico.EO:
                 isValid = !hasBuraco(x-1,y) && !hasCreature(x-1,y) && insideOfMap(x-1,y);
-                xPontos = x-1;
-                yPontos = y;
+                final_x = x-1;
                 break;
+        }
+        if(isValid){
+            sumPoints(creature,final_x,final_y);
         }
         return isValid;
     }

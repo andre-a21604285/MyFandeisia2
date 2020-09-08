@@ -116,7 +116,7 @@ public class Equipa implements java.io.Serializable {
     }
 
     public boolean isDruidaInPar(Creature creature){
-        if(creature.getTipo().equals(Druida.TIPO)&&(creature.getX()+creature.getY())%2==0){
+        if(creature.getTipo().equals(Druida.TIPO) && (creature.getX() + creature.getY()) % 2 == 0){
             return true;
         }
         return false;

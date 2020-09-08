@@ -24,7 +24,6 @@ public abstract class Creature implements java.io.Serializable {
     int ouro;
     int prata;
     int bronze;
-    int INICIALMOVEMENT;
     protected List<String> normalOrientation = Arrays.asList ("Norte","Este","Sul","Oeste");
     protected List<String> unnormalOrientation = Arrays.asList("Norte","Nordeste","Este","Sudeste","Sul","Sudoeste","Oeste","Noroeste");
 
@@ -46,7 +45,6 @@ public abstract class Creature implements java.io.Serializable {
         this.y=y;
         this.nrSpells = 0;
         this.km=0;
-        this.INICIALMOVEMENT = 0;
     }
 
     public int getId(){return id;}
