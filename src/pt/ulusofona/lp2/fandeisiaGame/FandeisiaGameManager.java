@@ -305,8 +305,8 @@ public class FandeisiaGameManager implements java.io.Serializable {
         if((creature==null || !canMove(creature,spellName,x,y))){
             return false;
         }
-        int cost = feitico.getFeitico(creature,spellName);
         feiticosTurno.put(spellName,creature);
+        int cost = feitico.getFeitico(creature,spellName);
         getEquipa(corrente.getId()).setMoedas(cost);
         if(spellName.equals("Congela")){
             congelados.add(creature);
