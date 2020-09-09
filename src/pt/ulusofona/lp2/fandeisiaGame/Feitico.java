@@ -128,9 +128,7 @@ public class Feitico implements java.io.Serializable {
 
 
 
-    private void paraNorte( Creature creature){
-        creature.setY(creature.getY()-1);
-    }
+    private void paraNorte( Creature creature){creature.setY(creature.getY()-1);}
     private void paraSul(Creature creature){
         creature.setY(creature.getY()+1);
     }
@@ -140,6 +138,7 @@ public class Feitico implements java.io.Serializable {
     private void paraOeste( Creature creature){
         creature.setX(creature.getX()-1);
     }
+
     private void menosAlcance( Creature creature){//reduzir o movimento
        creature.setAlcance(Math.min(creature.getMovement(),1));
     }

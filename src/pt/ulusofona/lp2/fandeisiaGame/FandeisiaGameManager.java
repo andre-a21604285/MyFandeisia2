@@ -524,6 +524,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
 
     private boolean canMove(Creature creature, String name,int x, int y){
         boolean isValid = false;
+        boolean willMove = true;
         int final_x = x;
         int final_y = y;
         switch (name){
@@ -543,8 +544,12 @@ public class FandeisiaGameManager implements java.io.Serializable {
                 isValid = !hasBuraco(x-1,y) && !hasCreature(x-1,y) && insideOfMap(x-1,y);
                 final_x = x-1;
                 break;
+            default:
+                isValid=true;
+                willMove=false;
+                break;
         }
-        if(isValid){
+        if(isValid && willMove){
             sumPoints(creature,final_x,final_y);
         }
         return isValid;
