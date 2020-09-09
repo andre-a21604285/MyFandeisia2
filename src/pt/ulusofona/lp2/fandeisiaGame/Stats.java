@@ -59,8 +59,10 @@ public class Stats implements java.io.Serializable{
 
     }
 
+    //segunda época
     public List<String> viradosPara(List<Creature> world){
         List<String> tmp = new ArrayList<String>();
+        world.sort((Creature s1, Creature s2) -> s1.getOrientation().compareTo(s2.getOrientation()));
         world.stream().collect(Collectors.groupingBy(Creature::getOrientation, Collectors.counting())).
                 forEach(((s, aLong) -> tmp.add(s + ":" + aLong)));
         return tmp;
@@ -68,8 +70,8 @@ public class Stats implements java.io.Serializable{
 
     public List<String> asMaisEficientes(List<Creature> world){
         List<String> tmp = new ArrayList<String>();
-        //world.stream().sorted(Comparator.comparingDouble(Creature::getRatio)).limit(3).
-                //forEach(c-> tmp.add(c.getId()+":"+c.getNrTreasure()+":"+c.getKm()));
+        world.stream().sorted(Comparator.comparingDouble(Creature::getRatio)).limit(3).
+                forEach(c-> tmp.add(c.getId()+":"+c.getNrTreasure()+":"+c.getKm()));
         return tmp;
     }
 

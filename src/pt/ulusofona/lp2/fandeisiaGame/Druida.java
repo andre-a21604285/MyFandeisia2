@@ -39,10 +39,10 @@ public class Druida extends Creature implements java.io.Serializable {
     }
 
     public void setOrientation(){
-        if(orientacao.equals(unnormalOrientation.get(unnormalOrientation.size()-1))){
+        if(orientacao.equals(normalOrientation.get(normalOrientation.size()-1))){
             orientacao = "Norte";
         }else{
-            orientacao = unnormalOrientation.get(unnormalOrientation.indexOf(orientacao)+1);
+            orientacao = normalOrientation.get(normalOrientation.indexOf(orientacao)+1);
         }
     }
 

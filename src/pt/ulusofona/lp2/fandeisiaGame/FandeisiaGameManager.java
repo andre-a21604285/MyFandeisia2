@@ -83,63 +83,65 @@ public class FandeisiaGameManager implements java.io.Serializable {
         boolean userValid=true;
         boolean computerValid=true;
         String message = "";
-        for (count = 0; count < content.length; count++) {
-            String dados[] = content[count].split(", ");
-            dados[0] = dados[0].replace("id: ", "");
-            dados[1] = dados[1].replace("type: ", "");
-            int id = Integer.parseInt(dados[0]);
-            String type = dados[1];
-            if (dados[1].equals("gold") || dados[1].equals("silver") || dados[1].equals("bronze")) {
-                dados[2] = dados[2].replace("x: ", "");
-                dados[3] = dados[3].replace("y: ", "");
-                int x = Integer.parseInt(dados[2]);
-                int y = Integer.parseInt(dados[3]);
-                if (checkAdd(x, y, rows, columns, map)) {
-                    addTresure(id, type, x, y);
-                }
-            } else if (dados[1].equals("hole")) {
-                dados[2] = dados[2].replace("x: ", "");
-                dados[3] = dados[3].replace("y: ", "");
-                int x = Integer.parseInt(dados[2]);
-                int y = Integer.parseInt(dados[3]);
-                if (checkAdd(x, y, rows, columns, map)) {
-                    addHole(id, x, y);
-                }
-            } else {
-                dados[2] = dados[2].replace("teamId: ", "");
-                int teamId = Integer.parseInt(dados[2]);
-                dados[3] = dados[3].replace("x: ", "");
-                int x = Integer.parseInt(dados[3]);
-                dados[4] = dados[4].replace("y: ", "");
-                int y = Integer.parseInt(dados[4]);
-                dados[5] = dados[5].replace("orientation: ", "");
-                String orientation = dados[5];
-                if (checkAdd(x, y, rows, columns, map)) {
-                    addCreature(getEquipa(teamId), id, type, orientation, x, y);
+        if(!gameStarted){
+            for (count = 0; count < content.length; count++) {
+                String dados[] = content[count].split(", ");
+                dados[0] = dados[0].replace("id: ", "");
+                dados[1] = dados[1].replace("type: ", "");
+                int id = Integer.parseInt(dados[0]);
+                String type = dados[1];
+                if (dados[1].equals("gold") || dados[1].equals("silver") || dados[1].equals("bronze")) {
+                    dados[2] = dados[2].replace("x: ", "");
+                    dados[3] = dados[3].replace("y: ", "");
+                    int x = Integer.parseInt(dados[2]);
+                    int y = Integer.parseInt(dados[3]);
+                    if (checkAdd(x, y, rows, columns, map)) {
+                        addTresure(id, type, x, y);
+                    }
+                } else if (dados[1].equals("hole")) {
+                    dados[2] = dados[2].replace("x: ", "");
+                    dados[3] = dados[3].replace("y: ", "");
+                    int x = Integer.parseInt(dados[2]);
+                    int y = Integer.parseInt(dados[3]);
+                    if (checkAdd(x, y, rows, columns, map)) {
+                        addHole(id, x, y);
+                    }
+                } else {
+                    dados[2] = dados[2].replace("teamId: ", "");
+                    int teamId = Integer.parseInt(dados[2]);
+                    dados[3] = dados[3].replace("x: ", "");
+                    int x = Integer.parseInt(dados[3]);
+                    dados[4] = dados[4].replace("y: ", "");
+                    int y = Integer.parseInt(dados[4]);
+                    dados[5] = dados[5].replace("orientation: ", "");
+                    String orientation = dados[5];
+                    if (checkAdd(x, y, rows, columns, map)) {
+                        addCreature(getEquipa(teamId), id, type, orientation, x, y);
+                    }
                 }
             }
-        }
-        if (user.getMoedas() < 0) {
-            userValid = false;
-        }
-        if (computer.getMoedas() < 0) {
-            computerValid = false;
-        }
-        if (!userValid && !computerValid) {
-            message = "Ambas as equipas não respeitam o plafond";
-            reset();
-            throw new InsufficientCoinsException(user, computer, message);
-        } else if (!userValid && computerValid) {
-            message = "O user não respeita o plafond ";
-            reset();
-            throw new InsufficientCoinsException(user, computer, message);
-        } else if (userValid && !computerValid) {
-            message = "O computer não respeita o plafond";
-            reset();
-            throw new InsufficientCoinsException(user, computer, message);
-        }
-        gameStarted=true;
+            if (user.getMoedas() < 0) {
+                userValid = false;
+            }
+            if (computer.getMoedas() < 0) {
+                computerValid = false;
+            }
+            if (!userValid && !computerValid) {
+                message = "Ambas as equipas não respeitam o plafond";
+                reset();
+                throw new InsufficientCoinsException(user, computer, message);
+            } else if (!userValid && computerValid) {
+                message = "O user não respeita o plafond ";
+                reset();
+                throw new InsufficientCoinsException(user, computer, message);
+            } else if (userValid && !computerValid) {
+                message = "O computer não respeita o plafond";
+                reset();
+                throw new InsufficientCoinsException(user, computer, message);
+            }
+            gameStarted=true;
 
+        }
 
     }
 
