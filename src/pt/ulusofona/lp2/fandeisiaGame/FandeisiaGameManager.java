@@ -33,7 +33,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
         feiticosTurno = new HashMap<>();
         congelados = new ArrayList();
         map = new Mapa(linhas,colunas);
-        turn = 0;
+        turn = 1;
         stats = new Stats();
         world= new ArrayList();
         tresures = new ArrayList();
@@ -58,7 +58,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
             }else if(tipo.equals("Humano")){
                 map.addPosition(x,y,'h');
                 world.add(new Humano(id,equipa.getId(),x,y,orientacao));
-            }else if(tipo.equals("Druida")){
+            }else if(tipo.equals("Druída")){
                 map.addPosition(x,y,'d');
                 world.add(new Druida(id,equipa.getId(),x,y,orientacao));
             }
@@ -456,32 +456,40 @@ public class FandeisiaGameManager implements java.io.Serializable {
             Creature creature=creatures.get(i);
             if(checkFinalMovement(creature)){
                 int creaturesMoves = creature.getMovement();
-                if(creature.getTipo().equals("Druida") && turn %2 == 0){
+                if(creature.getTipo().equals("Druída") && turn %2 == 0){
                     creaturesMoves = 2;
                 }
                 for(int j=0;j<creaturesMoves;j++){
+                    boolean isDruidaTreasure = false;
                     int x = creature.getX() + corrente.position(creature.getOrientation())[0];
                     int y = creature.getY() + corrente.position(creature.getOrientation())[1];
                     if(j==creaturesMoves-1){ //movimento final
                         if(corrente.isDruidaInPar(creature)) {
-                            tresures.add(new Tresure("bronze",creature.getX(),creature.getY()));
+                            Tresure tmptresure = new Tresure("bronze",creature.getX(),creature.getY());
+                            addTresure(-400,tmptresure.getType(),creature.getX(), creature.getY());
+                            isDruidaTreasure = true;
                         }
                         creature.incKm();
                         creature.movimento();
-                        sumPoints(creature,x,y);
+                        if(!isDruidaTreasure){
+                            sumPoints(creature,x,y);
+                        }
 
                     }else if(!corrente.checkMovement(x,y,creature,map)){
                         break;
                     }else{
                         if(corrente.isDruidaInPar(creature)) {
-                            tresures.add(new Tresure("bronze",creature.getX(),creature.getY()));
-                            map.addPosition(creature.getX(), creature.getY(), 't');
+                            Tresure tmptresure = new Tresure("bronze",creature.getX(),creature.getY());
+                            addTresure(tmptresure.getId(),tmptresure.getType(),creature.getX(), creature.getY());
+                            isDruidaTreasure = true;
                         }
                         creature.incKm();
                         //update movimento da creature em world
-                        getCreatureByPosition(creature.getX(),creature.getY()).movimento();
+                        creature.movimento();
+                        if(!isDruidaTreasure){
+                            sumPoints(creature,x,y);
+                        }
 
-                        sumPoints(creature,x,y);
                     }
                 }
             }else{

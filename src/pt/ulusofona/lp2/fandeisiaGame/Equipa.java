@@ -34,7 +34,7 @@ public class Equipa implements java.io.Serializable {
             case "Elfo":
                 setMoedas(Integer.parseInt(Elfo.COST));
                 break;
-            case "Druida":
+            case "Druída":
                 setMoedas(Integer.parseInt(Druida.COST));
                 break;
         }
@@ -99,7 +99,7 @@ public class Equipa implements java.io.Serializable {
         }else if(creature.getTipo().equals("Gigante")){
             isValid = !map.checkGigante(x,y);
         }else if(creature.getTipo().equals("Anão") || creature.getTipo().equals("Humano")
-                || creature.getTipo().equals("Druida")){
+                || creature.getTipo().equals("Druída")){
             isValid=!(map.checkCreature(x,y) || map.checkBuraco(x,y));
         }else{
             isValid=true;
@@ -116,7 +116,7 @@ public class Equipa implements java.io.Serializable {
     }
 
     public boolean isDruidaInPar(Creature creature){
-        if(creature.getTipo().equals(Druida.TIPO) && (creature.getX() + creature.getY()) % 2 == 0){
+        if(creature.getTipo().equals(Druida.TIPO) && ((creature.getX() + creature.getY()) % 2 == 0)){
             return true;
         }
         return false;
