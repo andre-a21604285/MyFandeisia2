@@ -56,7 +56,7 @@ public class Equipa implements java.io.Serializable {
 
     public void setPontos(int pontos, Creature creature){
         this.pontos += pontos;
-        creature.incTreasures();
+        creature.incTreasures(pontos);
     }
 
     public int getSize(){return size;}
@@ -120,5 +120,9 @@ public class Equipa implements java.io.Serializable {
             return true;
         }
         return false;
+    }
+
+    public void resetCoins(){
+        this.moedas=50;
     }
 }

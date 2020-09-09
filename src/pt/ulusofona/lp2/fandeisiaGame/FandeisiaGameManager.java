@@ -10,21 +10,21 @@ import java.io.Serializable;
 public class FandeisiaGameManager implements java.io.Serializable {
 
     private static final long serialVersionUID = -628789568975888036L;
-    static int turn;
-    int linhas;
-    int colunas;
-    List<String> results = new ArrayList<String>();
-    Stats stats;
-    Equipa user;
-    Equipa computer;
-    Equipa corrente;
-    Equipa vencedor;
-    List<Creature> world= new ArrayList();
-    List<Tresure> tresures = new ArrayList();
-    List<Buraco> holes = new ArrayList();
-    Map<String,Creature> feiticosTurno;
-    List<Creature> congelados;
-    Mapa map;
+    private int turn;
+    private int linhas;
+    private int colunas;
+    private Stats stats;
+    private Equipa user;
+    private Equipa computer;
+    private Equipa corrente;
+    private Equipa vencedor;
+    private List<Creature> world;
+    private List<Tresure> tresures;
+    private List<Buraco> holes;
+    private Map<String,Creature> feiticosTurno;
+    private List<Creature> congelados;
+    private Mapa map;
+    private boolean gameStarted;
 
     public FandeisiaGameManager() {
         user = new Equipa(10);
@@ -35,6 +35,10 @@ public class FandeisiaGameManager implements java.io.Serializable {
         map = new Mapa(linhas,colunas);
         turn = 0;
         stats = new Stats();
+        world= new ArrayList();
+        tresures = new ArrayList();
+        holes = new ArrayList();
+        gameStarted = false;
     }
 
     public void addCreature(Equipa equipa, int id, String tipo, String orientacao, int x , int y){
@@ -123,14 +127,20 @@ public class FandeisiaGameManager implements java.io.Serializable {
         }
         if (!userValid && !computerValid) {
             message = "Ambas as equipas não respeitam o plafond";
+            reset();
             throw new InsufficientCoinsException(user, computer, message);
         } else if (!userValid && computerValid) {
             message = "O user não respeita o plafond ";
+            reset();
             throw new InsufficientCoinsException(user, computer, message);
         } else if (userValid && !computerValid) {
             message = "O computer não respeita o plafond";
+            reset();
             throw new InsufficientCoinsException(user, computer, message);
         }
+        gameStarted=true;
+
+
     }
 
 
@@ -157,13 +167,15 @@ public class FandeisiaGameManager implements java.io.Serializable {
     }
 
     public void processTurn() {
-        movimento();
-        turn++;
-        tiraGelo();
-        if(corrente.getId() == 10){
-            corrente=computer;
-        }else{
-            corrente=user;
+        if(gameStarted){
+            movimento();
+            turn++;
+            tiraGelo();
+            if (corrente.getId() == 10) {
+                corrente = computer;
+            } else {
+                corrente = user;
+            }
         }
     }
 
@@ -201,7 +213,6 @@ public class FandeisiaGameManager implements java.io.Serializable {
             this.feiticosTurno = fandeisia.feiticosTurno;
             this.colunas = fandeisia.colunas;
             this.linhas = fandeisia.linhas;
-            this.results = fandeisia.results;
             this.vencedor = fandeisia.vencedor;
             file.close();
         } catch (IOException e) {
@@ -292,7 +303,8 @@ public class FandeisiaGameManager implements java.io.Serializable {
     }
 
     public boolean gameIsOver() {
-        if (turn == 15 || tresures.isEmpty() || pointsWorld() == true ) {
+        if ((turn == 15 || tresures.isEmpty() || pointsWorld() == true) && gameStarted ) {
+            setVencedor();
             return true;
         }
             return false;
@@ -392,14 +404,15 @@ public class FandeisiaGameManager implements java.io.Serializable {
         return lord;
     }
 
-    public List<String> getResults() {return results;}
-
-    public void setResults() {
-        String resultado;
+    public List<String> getResults() {
+        List<String> results = new LinkedList<>();
+        results.add("Welcome to FANDEISIA");
         String creatures;
         if(vencedor==null){
-            resultado="\n Welcome to FANDEISIA \n Resultado: EMPATE \n LRD: " + user.getPontos() + "\n RESISTENCIA: "
-                    + computer.getPontos() + "\n Nr. de Turnos jogados: " + turn +"\n----------\n";
+            results.add("Resultado: EMPATE");
+            results.add("LRD: " + user.getPontos());
+            results.add("RESISTENCIA: "+ computer.getPontos());
+            results.add(" Nr. de Turnos jogados: "+ turn );
         }else{
             String vencedor = "RESISTENCIA";
             String derrotado = "LRD";
@@ -409,16 +422,20 @@ public class FandeisiaGameManager implements java.io.Serializable {
                 derrotado = "RESISTENCIA";
                 derr = computer;
             }
-            resultado="\n Welcome to FANDEISIA \n Resultado: Vitoria da Equipa \n " + vencedor + "\n"
-                    + vencedor + " : " + this.vencedor.getPontos() + "\n" + derrotado + " : " + derr.getPontos() +
-                    "\n Nr. de Turnos jogados: " + turn +"\n----------\n";
+            results.add("Resultado: Vitoria da Equipa " + vencedor);
+            results.add(vencedor + ": " + this.vencedor.getPontos());
+            results.add(derrotado + ": " + derr.getPontos() );
+            results.add("Nr. de Turnos jogados: "+ turn);
         }
-        results.add(resultado);
+        results.add("----------");
+
         for(Creature creature:world){
-            creatures= creature.getId() + " : " + creature.getTipo() +" : "+creature.getOuro()+" : "+creature.getPrata()+" : "+creature.getBronze()+" : "
+            creatures= creature.getId() + " : " + creature.getTipo() +" : "
+                    +creature.getOuro()+" : "+creature.getPrata()+" : "+creature.getBronze()+" : "
                     +creature.getNrPontos();
             results.add(creatures);
         }
+        return results;
     }
 
     public Map<String, List<String>> getStatistics(){
@@ -652,6 +669,25 @@ public class FandeisiaGameManager implements java.io.Serializable {
         return  creatures;
     }
 
+    private void reset(){
+        feiticosTurno = new HashMap<>();
+        congelados = new ArrayList();
+        map = new Mapa(linhas,colunas);
+        turn = 0;
+        stats = new Stats();
+        world= new ArrayList();
+        tresures = new ArrayList();
+        holes = new ArrayList();
+        gameStarted = false;
+    }
+
+    private void setVencedor(){
+        if(user.getPontos()<computer.getPontos()){
+            vencedor = computer;
+        }else if(user.getPontos()>computer.getPontos()){
+            vencedor = user;
+        }
+    }
 
 }
 

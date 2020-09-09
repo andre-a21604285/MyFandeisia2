@@ -24,14 +24,7 @@ public class Druida extends Creature implements java.io.Serializable {
     }
 
     public int getMovement() {
-        int mov = 1;
-
-        if(FandeisiaGameManager.turn%2 == 0){
-            mov=2;
-        }
-
-
-        return mov;
+        return movement;
     }
 
     public void movimento(){
@@ -45,9 +38,6 @@ public class Druida extends Creature implements java.io.Serializable {
         }else if(orientacao.equals("Oeste")){
             x-=1;
         }
-    }
-    public int getINICIALMOVEMENT() {
-        return INICIALMOVEMENT;
     }
 
     public void setOrientation(){

@@ -44,7 +44,7 @@ public class Stats implements java.io.Serializable{
 
     public List<String> as3MaisViajadas(List<Creature>world){
         List<String> tmp = new ArrayList<String>();
-        world.stream().sorted(Comparator.comparingInt(Creature::getKm))
+        world.stream().sorted(Comparator.comparingInt(Creature::getKm).reversed()).limit(3)
                 .forEach(c->tmp.add(c.getId()+":"+c.getKm()));
         return tmp;
     }

@@ -13,6 +13,8 @@ public class InsufficientCoinsException extends Exception {
 
     public boolean teamRequiresMoreCoins(int teamID){
         if(getEquipa(teamID).getMoedas()<0){
+            user.resetCoins();
+            computer.resetCoins();
             return true;
         }
         return false;

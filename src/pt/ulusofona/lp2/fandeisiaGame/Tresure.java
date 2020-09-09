@@ -5,11 +5,12 @@ import java.io.Serializable;
 public class Tresure implements java.io.Serializable {
     private static final long serialVersionUID = -628789568975888036L;
 
-    int id;
-    int x;
-    int y;
-    static final String TIPO = "tresure";//variavel static por ser final, o valor tipo não altera
-    int pontos;
+    private int id;
+    private int x;
+    private int y;
+    private String type;
+    private static final String TIPO = "tresure";//variavel static por ser final, o valor tipo não altera
+    private int pontos;
 
     Tresure(){}
 
@@ -39,6 +40,7 @@ public class Tresure implements java.io.Serializable {
     public int getPoints(){return pontos;}
 
     public void setPoints(String type){
+        this.type = type;
         if(type.equals("gold")){
             pontos=3;
         }else if(type.equals("silver")){
@@ -47,6 +49,9 @@ public class Tresure implements java.io.Serializable {
             pontos=1;
         }
 
+    }
+    public String getType(){
+        return type;
     }
 
 }

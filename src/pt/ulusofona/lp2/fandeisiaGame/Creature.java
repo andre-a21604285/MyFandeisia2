@@ -79,8 +79,17 @@ public abstract class Creature implements java.io.Serializable {
     public int getNrTreasure(){
         return nrTresures;
     }
-    public void incTreasures(){
+
+    public void incTreasures(int pontos){
+        if(pontos == 3){
+            ouro++;
+        }else if(pontos == 2){
+            prata++;
+        }else if(pontos == 1){
+            bronze++;
+        }
         nrTresures++;
+        nrPontos+=pontos;
     }
 
     public int getNrSpells(){ return nrSpells;}
