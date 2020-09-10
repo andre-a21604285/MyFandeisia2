@@ -478,7 +478,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
                         if(!isDruidaTreasure){
                             sumPoints(creature,x,y);
                         }
-                        if(!checkFinalMovement(creature)){
+                        while(!checkFinalMovement(creature)){
                             creature.setOrientation();
                         }
                     }else if(!corrente.checkMovement(x,y,creature,map)){

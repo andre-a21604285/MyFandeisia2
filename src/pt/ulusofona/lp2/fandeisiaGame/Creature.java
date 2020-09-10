@@ -104,7 +104,10 @@ public abstract class Creature implements java.io.Serializable {
     }
 
     public double getRatio(){
-        return getNrTreasure() / getKm();
+        if(getKm()!=0){
+            return getNrTreasure() / getKm();
+        }
+        return 0;
     }
     public String toString(){
         String toString = id + " | " + tipo + " | " + idEquipa + " | " + nrPontos + " @ (" + x + ", " + y+") "+ orientacao;
