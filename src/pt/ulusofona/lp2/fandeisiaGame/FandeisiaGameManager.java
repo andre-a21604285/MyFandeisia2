@@ -22,7 +22,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
     private List<Creature> world;
     private List<Tresure> tresures;
     private List<Buraco> holes;
-    private Map<String,Creature> feiticosTurno;
+    private Map<Integer,String> feiticosTurno;
     private List<Creature> congelados;
     private Mapa map;
     private boolean gameStarted;
@@ -171,14 +171,15 @@ public class FandeisiaGameManager implements java.io.Serializable {
 
     public void processTurn() {
         if(gameStarted){
+            processSpells();
             movimento();
-            turn++;
             tiraGelo();
             if (corrente.getId() == 10) {
                 corrente = computer;
             } else {
                 corrente = user;
             }
+            turn++;
         }
     }
 
@@ -320,7 +321,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
         if((creature==null || !canMove(creature,spellName,x,y))){
             return false;
         }
-        feiticosTurno.put(spellName,creature);
+        feiticosTurno.put(creature.getId(),spellName);
         int cost = feitico.getFeitico(creature,spellName);
         getEquipa(corrente.getId()).setMoedas(cost);
         if(spellName.equals("Congela")){
@@ -331,10 +332,10 @@ public class FandeisiaGameManager implements java.io.Serializable {
 
     public String getSpell(int x, int y) { //verificar no mapa de feiticos qual a criatura afetada
         String spellName=null;
-        for (Map.Entry<String, Creature> entry : feiticosTurno.entrySet()) {
-            Creature v = entry.getValue();
+        for (Map.Entry<Integer, String> entry : feiticosTurno.entrySet()) {
+            Creature v =getCreatureByID(entry.getKey());
             if(v.getX() == x && v.getY()==y ){
-                spellName = entry.getKey();
+                spellName = entry.getValue();
                 break;
             }
         }
@@ -454,7 +455,6 @@ public class FandeisiaGameManager implements java.io.Serializable {
     }
 
     public void movimento(){
-        Random randomGenerator = new Random();
         List<Creature> creatures = getCreaturesFromCurrentTeam();
         for(int i = 0 ; i<creatures.size(); i++){
             Creature creature=creatures.get(i);
@@ -478,15 +478,12 @@ public class FandeisiaGameManager implements java.io.Serializable {
                         if(!isDruidaTreasure){
                             sumPoints(creature,x,y);
                         }
-                        while(!checkFinalMovement(creature)){
-                            creature.setOrientation();
-                        }
                     }else if(!corrente.checkMovement(x,y,creature,map)){
                         break;
                     }else{
                         if(corrente.isDruidaInPar(creature)) {
                             Tresure tmptresure = new Tresure("bronze",creature.getX(),creature.getY());
-                            addTresure(tmptresure.getId(),tmptresure.getType(),creature.getX(), creature.getY());
+                            addTresure(idTreasureDruida--,tmptresure.getType(),creature.getX(), creature.getY());
                             isDruidaTreasure = true;
                         }
                         creature.incKm();
@@ -499,7 +496,6 @@ public class FandeisiaGameManager implements java.io.Serializable {
                 }
             }else{
                 creature.setOrientation();
-                break;
             }
         }
     }
@@ -529,33 +525,22 @@ public class FandeisiaGameManager implements java.io.Serializable {
 
     private boolean canMove(Creature creature, String name,int x, int y){
         boolean isValid = false;
-        boolean willMove = true;
-        int final_x = x;
-        int final_y = y;
         switch (name){
             case Feitico.ES:
                 isValid = !hasBuraco(x,y+1) && !hasCreature(x,y+1) && insideOfMap(x,y+1);
-                final_y = y+1;
                 break;
             case Feitico.EN:
                 isValid = !hasBuraco(x,y-1) && !hasCreature(x,y-1) && insideOfMap(x,y-1);
-                final_y = y-1;
                 break;
             case Feitico.EE:
                 isValid = !hasBuraco(x+1,y) && !hasCreature(x+1,y) && insideOfMap(x+1,y);
-                final_x = x+1;
                 break;
             case Feitico.EO:
                 isValid = !hasBuraco(x-1,y) && !hasCreature(x-1,y) && insideOfMap(x-1,y);
-                final_x = x-1;
                 break;
             default:
                 isValid=true;
-                willMove=false;
                 break;
-        }
-        if(isValid && willMove){
-            sumPoints(creature,final_x,final_y);
         }
         return isValid;
     }
@@ -704,6 +689,22 @@ public class FandeisiaGameManager implements java.io.Serializable {
             vencedor = computer;
         }else if(user.getPontos()>computer.getPontos()){
             vencedor = user;
+        }
+    }
+
+    private void processSpells(){
+        if(!feiticosTurno.isEmpty()){
+            for(Map.Entry<Integer, String> entry : feiticosTurno.entrySet()){
+                Feitico feitico = new Feitico();
+                Creature creature = getCreatureByID(entry.getKey());
+                String spellname=entry.getValue();
+                feitico.processSpell(creature,spellname);
+                if(!spellname.equals(Feitico.C) || !spellname.equals(Feitico.C4) || !spellname.equals(Feitico.D)
+                || !spellname.equals(Feitico.RA) || !spellname.equals(Feitico.DA) ){
+                    sumPoints(creature,creature.getX(),creature.getY());
+                }
+            }
+            feiticosTurno.clear();
         }
     }
 }

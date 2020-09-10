@@ -23,34 +23,47 @@ public class Feitico implements java.io.Serializable {
     public int getFeitico(Creature creature, String name){
         int cost = 0;
         if(name.toUpperCase().equals(EN.toUpperCase())){
-            paraNorte(creature);
             cost = 1;
         }else if(name.toUpperCase().equals(ES.toUpperCase())){
-             paraSul(creature);
              cost = 1;
         }else if(name.toUpperCase().equals(EE.toUpperCase())){
-             paraEste(creature);
              cost = 1;
         }else if(name.toUpperCase().equals(EO.toUpperCase())){
-            paraOeste(creature);
             cost = 1;
         }else if(name.toUpperCase().equals(RA.toUpperCase())){
-             menosAlcance(creature);
              cost = 2;
         }else if(name.toUpperCase().equals(DA.toUpperCase())){
-             maisAlcance(creature);
              cost = 3;
         }else if(name.toUpperCase().equals(C.toUpperCase())){
-             gelo(creature);
              cost = 3;
         }else if(name.toUpperCase().equals(C4.toUpperCase())){
-             sempreGelo(creature);
-            cost = 10;
+             cost = 10;
         }else if(name.toUpperCase().equals(D.toUpperCase())){
-             semGelo(creature);
-            cost = 8;
+             cost = 8;
         }
     return cost;
+    }
+
+    public void processSpell(Creature creature, String name){
+        if(name.toUpperCase().equals(EN.toUpperCase())){
+            paraNorte(creature);
+        }else if(name.toUpperCase().equals(ES.toUpperCase())){
+            paraSul(creature);
+        }else if(name.toUpperCase().equals(EE.toUpperCase())){
+            paraEste(creature);
+        }else if(name.toUpperCase().equals(EO.toUpperCase())){
+            paraOeste(creature);
+        }else if(name.toUpperCase().equals(RA.toUpperCase())){
+            menosAlcance(creature);
+        }else if(name.toUpperCase().equals(DA.toUpperCase())){
+            maisAlcance(creature);
+        }else if(name.toUpperCase().equals(C.toUpperCase())){
+            gelo(creature);
+        }else if(name.toUpperCase().equals(C4.toUpperCase())){
+            sempreGelo(creature);
+        }else if(name.toUpperCase().equals(D.toUpperCase())){
+            semGelo(creature);
+        }
     }
 
     public static String[] empurraParaNorte(){
@@ -129,12 +142,15 @@ public class Feitico implements java.io.Serializable {
 
 
     private void paraNorte( Creature creature){creature.setY(creature.getY()-1);}
+
     private void paraSul(Creature creature){
         creature.setY(creature.getY()+1);
     }
+
     private void paraEste( Creature creature){
         creature.setX(creature.getX()+1);
     }
+
     private void paraOeste( Creature creature){
         creature.setX(creature.getX()-1);
     }
