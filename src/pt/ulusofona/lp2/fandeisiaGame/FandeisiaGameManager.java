@@ -4,6 +4,7 @@ import java.util.*;
 import java.lang.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.io.Serializable;
 
 
@@ -25,6 +26,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
     private List<Creature> congelados;
     private Mapa map;
     private boolean gameStarted;
+    private int idTreasureDruida=-400;
 
     public FandeisiaGameManager() {
         user = new Equipa(10);
@@ -452,6 +454,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
     }
 
     public void movimento(){
+        Random randomGenerator = new Random();
         List<Creature> creatures = getCreaturesFromCurrentTeam();
         for(int i = 0 ; i<creatures.size(); i++){
             Creature creature=creatures.get(i);
@@ -467,7 +470,7 @@ public class FandeisiaGameManager implements java.io.Serializable {
                     if(j==creaturesMoves-1){ //movimento final
                         if(corrente.isDruidaInPar(creature)) {
                             Tresure tmptresure = new Tresure("bronze",creature.getX(),creature.getY());
-                            addTresure(-400,tmptresure.getType(),creature.getX(), creature.getY());
+                            addTresure(idTreasureDruida--,tmptresure.getType(),creature.getX(), creature.getY());
                             isDruidaTreasure = true;
                         }
                         creature.incKm();
@@ -475,7 +478,9 @@ public class FandeisiaGameManager implements java.io.Serializable {
                         if(!isDruidaTreasure){
                             sumPoints(creature,x,y);
                         }
-
+                        if(!checkFinalMovement(creature)){
+                            creature.setOrientation();
+                        }
                     }else if(!corrente.checkMovement(x,y,creature,map)){
                         break;
                     }else{
@@ -701,6 +706,5 @@ public class FandeisiaGameManager implements java.io.Serializable {
             vencedor = user;
         }
     }
-
 }
 
